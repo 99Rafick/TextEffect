@@ -16,3 +16,16 @@ To use the `TextEffect` class, include the JavaScript file containing the class 
 
    ```javascript
    import TextEffect from './TextEffect.js';
+
+## Usage
+
+### Creating an Instance
+
+To use the `TextEffect` class, first, create an instance of the class. Here's a simple example:
+
+```javascript
+// Import the TextEffect class if using a module system
+// import TextEffect from './path/to/TextEffect';
+
+// Create an instance of TextEffect
+const textEffect = new TextEffect();
