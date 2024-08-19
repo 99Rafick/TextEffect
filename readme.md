@@ -24,7 +24,6 @@ To use the `TextEffect` class, include the JavaScript file containing the class 
 ### Creating an Instance
 
 To use the `TextEffect` class, first, create an instance of the class. Here's a simple example:
-
     ```javascript
     const textEffect = new TextEffect();
 
@@ -33,7 +32,6 @@ To use the `TextEffect` class, first, create an instance of the class. Here's a 
 
 To apply a hover effect to an element using the `TextEffect` class, you can use the `inHover` method. 
 Here s how you can do it:
-
     ```javascript
     // Select the element to apply the hover effect
     const text1 = document.querySelector("h1");
