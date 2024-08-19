@@ -1,0 +1,55 @@
+.hover-effect{
+    overflow: hidden;
+    width: max-content;
+    height: max-content;
+}
+
+.hover-effect .hover-effect-child{
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-effect .hover-effect-child:nth-child(2){
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hover-effect .hover-effect-child .hover-effect-span {
+    will-change: transform;
+    transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    transition-duration: .4s;
+    display: inline-block;
+}
+
+.hover-effect .hover-effect-child:nth-child(1) .hover-effect-span{
+    transform-origin: bottom;
+    opacity: 0.5;
+}
+
+.hover-effect.top .hover-effect-child:nth-child(2) .hover-effect-span{
+    transform-origin: top;
+    transform: translateY(100%);
+}
+
+.hover-effect.bottom .hover-effect-child:nth-child(2) .hover-effect-span{
+    transform-origin: top;
+    transform: translateY(-100%);
+}
+
+.hover-effect.top.hover:hover .hover-effect-child:nth-child(1) .hover-effect-span,
+.hover-effect.top.active .hover-effect-child:nth-child(1) .hover-effect-span {
+    transform: translateY(-100%);
+}
+
+.hover-effect.bottom.hover:hover .hover-effect-child:nth-child(1) .hover-effect-span,
+.hover-effect.bottom.active .hover-effect-child:nth-child(1) .hover-effect-span {
+    transform: translateY(100%);
+}
+
+.hover-effect.hover:hover .hover-effect-child:nth-child(2) .hover-effect-span,
+.hover-effect.active  .hover-effect-child:nth-child(2) .hover-effect-span{
+    transform: translateY(0);
+}
+
