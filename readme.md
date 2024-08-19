@@ -23,15 +23,14 @@ To use the `TextEffect` class, include the JavaScript file containing the class 
 
 ### Creating an Instance
 
-To use the `TextEffect` class, first, create an instance of the class. Heres a simple example:
+- To use the `TextEffect` class, first, create an instance of the class. Heres a simple example:
 
     ```javascript
     const textEffect = new TextEffect();
     
 ## Applying Hover Effects
 
-To apply a hover effect to an element using the `TextEffect` class, you can use the `inHover` method. 
-Here s how you can do it:
+- To apply a hover effect to an element using the `TextEffect` class, you can use the `inHover` method. Here s how you can do it:
 
     ```javascript
     // Select the element to apply the hover effect
@@ -48,7 +47,7 @@ Here s how you can do it:
 
 ## Applying Scroll Effects
 
-To apply a scroll effect to an HTML element using the `TextEffect` class, use the `inScroll` method. Here's an example of how to do it:
+- To apply a scroll effect to an HTML element using the `TextEffect` class, use the `inScroll` method. Here's an example of how to do it:
 
 ```javascript
 // Select the element to apply the scroll effect
