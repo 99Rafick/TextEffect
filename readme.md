@@ -16,35 +16,35 @@ To use the `TextEffect` class, include the JavaScript file containing the class 
 
    ```javascript
    import TextEffect from './TextEffect.js';
-
 ## Usage
 
 ### Creating an Instance
 
 To use the `TextEffect` class, first, create an instance of the class. Here's a simple example:
 
-```javascript
-// Import the TextEffect class if using a module system
-// import TextEffect from './path/to/TextEffect';
+    ```javascript
+    // Import the TextEffect class if using a module system
+    // import TextEffect from './path/to/TextEffect';
 
-// Create an instance of TextEffect
-const textEffect = new TextEffect();
+    // Create an instance of TextEffect
+    const textEffect = new TextEffect();
+
 
 ## Applying Hover Effects
 
 To apply a hover effect to an element using the `TextEffect` class, you can use the `inHover` method. Here's how you can do it:
 
-```javascript
-// Select the element to apply the hover effect
-const text1 = document.querySelector("h1");
+    ```javascript
+    // Select the element to apply the hover effect
+    const text1 = document.querySelector("h1");
 
-// Apply the hover effect using the inHover method
-textEffect.inHover(text1, {
-  hover: true,                // Enable hover effect (default: true)
-  transitionSeconds: 0.3,    // Duration of the transition effect in seconds (default: 0.5)
-  top: true,                 // Apply effect to the top of the element (default: false)
-  delaySeconds: 0.015        // Delay before the effect starts in seconds (default: 0.025)
-});```
+    // Apply the hover effect using the inHover method
+    textEffect.inHover(text1, {
+    hover: true,                // Enable hover effect (default: true)
+    transitionSeconds: 0.3,    // Duration of the transition effect in seconds (default: 0.5)
+    top: true,                 // Apply effect to the top of the element (default: false)
+    delaySeconds: 0.015        // Delay before the effect starts in seconds (default: 0.025)
+    });
 
 ## Applying Scroll Effects
 
