@@ -40,16 +40,25 @@ class Effect {
     }
   }
 
+
+  hoverEffect() {
+    this.start();
+  }
+
+  observeInScroll() {
+    this.start()
+    const observer = new IntersectionObserver(this.onIntersection);
+    observer.observe(this.element);
+  }
+
   start() {
     this.verifyData(this.data);
-    if (this.element.classList.contains("hover-effect")) {
-      const observer = new IntersectionObserver(this.onIntersection);
-      this.config(this.element);
-      this.createSettingElement(this.element)
-      this.decomposeText(this.element);
-      observer.observe(this.element);
+    if (!this.element.classList.contains("hover-effect")) {
+        return false;
     }
-    return false;
+    this.config(this.element);
+    this.createSettingElement(this.element)
+    this.decomposeText(this.element);
   }
 
 
@@ -175,12 +184,10 @@ const text = document.querySelector("h1");
 const effectOption = {
   hover: true,
   threshold: 1,
-  transitionSeconds: 0.5,
+  transitionSeconds: 0.3,
   top: true,
-  delaySeconds: 0.025,
+  delaySeconds: 0.015,
 };
 
 const effect = new Effect(text, effectOption)
-effect.start()
-
-console.log(text)
+effect.hoverEffect()

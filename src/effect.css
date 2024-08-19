@@ -1,6 +1,7 @@
 .hover-effect{
     overflow: hidden;
     width: max-content;
+    position: relative;
     height: max-content;
 }
 
