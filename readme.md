@@ -1,4 +1,4 @@
-# TextEffect Class
+# `TextEffect` Class
 
 The `TextEffect` class is a utility for applying animated hover and scroll effects to HTML text elements. It supports creating visual effects on text based on user interactions such as hover and scroll.
 
@@ -12,7 +12,7 @@ To use the `TextEffect` class, include the JavaScript file containing the class 
 
 2. **Import the Class**
 
-   Import the class into your project where needed.
+   Import the class into your project where needed:
 
    ```javascript
    import TextEffect from './TextEffect.js';
@@ -45,7 +45,6 @@ textEffect.inHover(text1, {
   top: true,                 // Apply effect to the top of the element (default: false)
   delaySeconds: 0.015        // Delay before the effect starts in seconds (default: 0.025)
 });```
-
 
 ## Applying Scroll Effects
 
