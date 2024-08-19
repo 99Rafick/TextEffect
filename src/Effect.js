@@ -1,45 +1,37 @@
 class Effect {
+
     constructor() {
       this.element = null;
       this.data = {};
     }
+
+    setEffectConfiguation() {
+        this.checkParams();
+        if(!this.element.classList.contains('hover-effect')) return;
+        this.setEffectDirection(this.element);
+        this.setInnerElement(this.element);
+        this.decomposeText(this.element);
+    }
   
-    applyHoverEffect(element, { hover = true, transitionSeconds = 0.5, top = false, delaySeconds = 0.025 }) {
+    inHover(element, { hover = true, transitionSeconds = 0.5, top = false, delaySeconds = 0.025 }) {
       this.element = element;
       this.data = { hover, transitionSeconds, top, delaySeconds };
-      this.startHoverEffect();
+      this.setEffectConfiguation();
     }
   
-    applyScrollEffect(element, { isActiveInMiddle = false, isList = false, transitionSeconds = 0.5, top = false, delaySeconds = 0.025 }) {
+    inScroll(element, { isActiveInMiddle = false, isList = false, transitionSeconds = 0.5, top = false, delaySeconds = 0.025 }) {
       this.element = element;
       this.data = { isActiveInMiddle, isList, transitionSeconds, top, delaySeconds };
-      this.startScrollEffect();
+      this.effectOnScroll();
     }
-  
-    startHoverEffect() {
-      this.verifyData();
-      if (!this.element.classList.contains("hover-effect")) {
-        return;
-      }
-      this.config(this.element);
-      this.createSettingElement(this.element);
-      this.decomposeText(this.element);
-    }
-  
-    startScrollEffect() {
-      this.verifyData();
-      if (!this.element.classList.contains("hover-effect")) {
-        return;
-      }
-      this.config(this.element);
-      this.createSettingElement(this.element);
-      this.decomposeText(this.element);
-  
-      const observer = new IntersectionObserver(this.onIntersection.bind(this));
+
+    effectOnScroll() {
+      this.setEffectConfiguation()
+      const observer = new IntersectionObserver(this.setActionOnIntersection.bind(this));
       observer.observe(this.element);
     }
   
-    verifyData() {
+    checkParams() {
       if (this.data.transitionSeconds === undefined) {
         throw new Error("undefined transitionSeconds");
       }
@@ -48,115 +40,90 @@ class Effect {
       }
     }
   
-    config(e) {
-      if (this.data.hover) {
-        e.classList.add("hover");
-      }
-      if (this.data.top) {
-        e.classList.add("top");
-      } else {
-        e.classList.add("bottom");
-      }
+    setEffectDirection(e) {
+        e.classList.toggle("hover", this.data.hover);
+        e.classList.add(this.data.top ? "top" : "bottom");
     }
-  
-    createSettingElement(e) {
-      const text = e.textContent;
-      e.textContent = null;
-      const div = document.createElement('div');
-      const span = document.createElement('span');
-      div.classList.add("hover-effect-child");
-      span.textContent = text;
-      div.appendChild(span);
-      e.appendChild(div);
+    
+    setInnerElement(e) {
+        const span = document.createElement('span');
+        span.textContent = e.textContent;
+        
+        const div = document.createElement('div');
+        div.classList.add("hover-effect-child");
+        div.appendChild(span);
+    
+        e.textContent = '';
+        e.appendChild(div);
     }
-  
-    onIntersection(entries) {
-      if (this.data.hover) return;
-  
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if (this.data.isActiveInMiddle) {
-            this.addMiddleEvent();
-          } else {
-            this.addActive(this.element);
-          }
-        } else {
-          if (this.data.isActiveInMiddle) {
-            this.removeMiddleEvent();
-          } else {
-            this.removeActive(this.element);
-          }
-        }
-      });
+    
+    setActionOnIntersection(entries) {
+        if (this.data.hover) return;
+    
+        entries.forEach(({ isIntersecting }) => {
+            const method = isIntersecting 
+                ? (this.data.isActiveInMiddle ? 'addMiddleEvent' : 'addActive')
+                : (this.data.isActiveInMiddle ? 'removeMiddleEvent' : 'removeActive');
+    
+            this[method](this.element);
+        });
     }
-  
-    middleAction() {
-      if (this.isInWayToActive(this.element)) {
-        this.addActive(this.element);
-      } else {
-        this.removeActive(this.element);
-      }
+    
+    actionOnMiddle() {
+        this[this.canActiveElementInSroll(this.element) ? 'addActive' : 'removeActive'](this.element);
     }
-  
+    
     addMiddleEvent() {
-      window.addEventListener("scroll", this.middleAction.bind(this));
+      window.addEventListener("scroll", this.actionOnMiddle.bind(this));
     }
   
     removeMiddleEvent() {
-      window.removeEventListener("scroll", this.middleAction.bind(this));
+      window.removeEventListener("scroll", this.actionOnMiddle.bind(this));
     }
+
+    toggleActive(e) {
+        e.classList.toggle("active");
+    }
+    
   
     addActive(e) {
-      if (e.classList.contains("active")) return;
-      e.classList.add("active");
+      if (!e.classList.contains("active")) e.classList.toggle("active");
     }
   
     removeActive(e) {
-      if (e.classList.contains("active")) {
-        e.classList.remove("active");
-      }
+        if (e.classList.contains("active")) e.classList.remove("active");
     }
   
-    isInWayToActive(e) {
-      const elementRect = e.getBoundingClientRect();
-      let middleOfScreen = window.innerHeight / 2;
-      if (this.data.isList) {
-        middleOfScreen = window.innerHeight / 3;
-      }
-      return elementRect.top - elementRect.height < middleOfScreen;
+    canActiveElementInSroll(e) {
+        const { top, height } = e.getBoundingClientRect();
+        const middleOfScreen = window.innerHeight / (this.data.isList ? 3 : 2);
+        return top - height < middleOfScreen;
     }
+    
   
-    decomposeText(e) {
-      let elementChildren = e.querySelectorAll(".hover-effect-child");
-      this.cloneItems(elementChildren);
-      elementChildren = e.querySelectorAll(".hover-effect-child");
-      this.splitTextByLetters(elementChildren);
+    decomposeText(element) {
+        let children = element.querySelectorAll(".hover-effect-child");
+        this.clone(children);
+        this.splitElementsText(element.querySelectorAll(".hover-effect-child"));
     }
+    
   
-    splitTextByLetters(es) {
-      es.forEach((e) => {
-        const letters = e.children[0].textContent.split("");
-        e.innerHTML = "";
-        letters.forEach((el, k) => {
-          if (el === " ") {
-            e.innerHTML += " ";
-          } else {
-            e.innerHTML += `<span class="hover-effect-span" style="transition-delay: ${
-              this.data.delaySeconds * k
-            }s; transition-duration: ${
-              this.data.transitionSeconds
-            }s !important;">${el}</span>`;
-          }
+    splitElementsText(elements) {
+        elements.forEach((element) => {
+            const letters = element.children[0].textContent.split("");
+            element.innerHTML = letters.map((char, index) => {
+                if (char === " ") return " ";
+                return `<span class="hover-effect-span" style="transition-delay:${this.data.delaySeconds * index}s;transition-duration:${this.data.transitionSeconds}s;">${char}</span>`;
+            }).join("");
         });
-      });
     }
-  
-    cloneItems(es) {
-      es.forEach((e) => {
-        const clone = e.cloneNode(true);
-        e.parentNode.append(clone);
-      });
+    
+    clone(elements) {
+        elements.forEach(element => {
+            element.parentNode.append(element.cloneNode(true));
+        });
     }
+    
   }
   
   // Application
@@ -166,17 +133,17 @@ class Effect {
   const text1 = document.querySelector("h1");
   const text2 = document.querySelector("h2");
   
-  effect.applyHoverEffect(text1, {
+  effect.inHover(text1, {
     hover: true,
     transitionSeconds: 0.3,
     top: true,
     delaySeconds: 0.015,
   });
   
-  effect.applyScrollEffect(text2, {
+  effect.inScroll(text2, {
     isActiveInMiddle: true,
     isList: false,
-    transitionSeconds: 0.9,
+    transitionSeconds: 0.5,
     top: true,
     delaySeconds: 0.035,
   });
